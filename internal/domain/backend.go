@@ -23,3 +23,15 @@ func (b *Backend) IsAlive() bool {
 	defer b.mux.RUnlock()
 	return b.Alive
 }
+
+func (b *Backend) IncrementConns() {
+	b.mux.Lock()
+	defer b.mux.Unlock()
+	b.CurrentConns++
+}
+
+func (b *Backend) DecrementConns() {
+	b.mux.Lock()
+	defer b.mux.Unlock()
+	b.CurrentConns--
+}
