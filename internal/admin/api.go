@@ -20,14 +20,14 @@ func NewAdminServer(lb loadbalancer.LoadBalancer) *AdminServer {
 	}
 }
 
-func (a *AdminServer) Start() {
+func (a *AdminServer) Start(addr string) {
 	// GET /status
 	http.HandleFunc("/status", a.getStatus)
 
 	// DELETE | POST /backends
 	http.HandleFunc("/backends", a.handleBackends)
 
-	http.ListenAndServe(":8081", nil)
+	http.ListenAndServe(addr, nil)
 }
 
 func (a *AdminServer) getStatus(w http.ResponseWriter, r *http.Request) {

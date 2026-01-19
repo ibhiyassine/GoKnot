@@ -1,0 +1,18 @@
+2026/01/20 00:08:28 Initializing GoKnot Load Balancer...
+2026/01/20 00:08:28 Error loading the correct strategy
+2026/01/20 00:08:56 Initializing GoKnot Load Balancer...
+2026/01/20 00:08:56 Proxy server listening on :8080 (Admin listening on :3333)
+2026/01/20 00:08:56 Health ckecking started with interval 5s
+2026/01/20 00:10:04 Initializing GoKnot Load Balancer...
+2026/01/20 00:10:04 Proxy server listening on :8080 (Admin listening on :3333)
+2026/01/20 00:10:04 Health ckecking started with interval 15s
+2026/01/20 00:10:16 [Admin] Added backend: http://localhost:9001
+2026/01/20 00:10:16 [Admin] Added backend: http://localhost:9002
+2026/01/20 00:10:35 Proxy requesting to http://localhost:9002
+2026/01/20 00:10:42 Proxy requesting to http://localhost:9001
+2026/01/20 00:10:44 Proxy requesting to http://localhost:9002
+2026/01/20 00:10:45 Proxy requesting to http://localhost:9001
+2026/01/20 00:12:04 [Health] Backend http://localhost:9001 is DOWN
+2026/01/20 00:12:21 Proxy requesting to http://localhost:9002
+2026/01/20 00:12:23 Proxy requesting to http://localhost:9002
+2026/01/20 00:12:24 Proxy requesting to http://localhost:9002
