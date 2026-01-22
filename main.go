@@ -2,16 +2,18 @@ package main
 
 import (
 	"fmt"
-	"io"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
+	tea "github.com/charmbracelet/bubbletea"
 	"github.com/ibhiyassine/GoKnot/internal/admin"
 	"github.com/ibhiyassine/GoKnot/internal/config"
 	"github.com/ibhiyassine/GoKnot/internal/health"
 	"github.com/ibhiyassine/GoKnot/internal/loadbalancer"
 	"github.com/ibhiyassine/GoKnot/internal/proxy"
+	"github.com/ibhiyassine/GoKnot/internal/tui"
 )
 
 var pool = &loadbalancer.ServerPool{}
@@ -38,8 +40,7 @@ func main() {
 	defer logFile.Close()
 
 	// Write to both Terminal and File
-	multiWriter := io.MultiWriter(os.Stdout, logFile)
-	log.SetOutput(multiWriter)
+	log.SetOutput(logFile)
 	log.Println("Initializing GoKnot Load Balancer...")
 
 	// Loading configuration
@@ -63,17 +64,25 @@ func main() {
 	// We just run the admin and don't care of it halting, no need for wait group
 	go func() {
 		//NOTE: admin listens in port 3333
-		admin.Start(":3333")
+		admin.Start(":" + strconv.Itoa(cfg.AdminPort))
 	}()
 
 	proxyHandler := proxy.NewProxyHandler(lb)
 
 	serverAddr := fmt.Sprintf(":%d", cfg.Port)
-	log.Printf("Proxy server listening on %s (Admin listening on :3333)", serverAddr)
+	go func() {
 
-	err = http.ListenAndServe(serverAddr, proxyHandler)
-	if err != nil {
-		log.Fatal("Proxy server failed...")
+		err = http.ListenAndServe(serverAddr, proxyHandler)
+		if err != nil {
+			log.Fatal("Proxy server failed...")
+		}
+	}()
+	log.Printf("Proxy server listening on %s (Admin listening on :%d)", serverAddr, cfg.AdminPort)
+
+	// Start the TUI
+	p := tea.NewProgram(tui.InitialModel(lb, cfg.AdminPort))
+	if _, err := p.Run(); err != nil {
+		fmt.Printf("Alas, there's been an error: %v", err)
+		os.Exit(1)
 	}
-
 }

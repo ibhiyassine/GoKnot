@@ -37,8 +37,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("[%s] Received request from %s.", ID, r.RemoteAddr)
 
 	// We can also simulate that the backend has some work by sleeping
-	delay := rand.Intn(500)
-	time.Sleep(time.Duration(delay) * time.Millisecond)
+	delay := rand.Intn(10)
+	time.Sleep(time.Duration(delay) * time.Second)
 
 	// Then respond
 	w.WriteHeader(http.StatusOK)

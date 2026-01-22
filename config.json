@@ -1,5 +1,6 @@
 {
     "port": 8080,
     "strategy": "round_robin",
-    "health_check_frequency": "15s"
+    "health_check_frequency": "15s",
+    "admin": 3333
 }

@@ -8,6 +8,7 @@ import (
 
 type ProxyConfig struct {
 	Port            int           `json:"port"`
+	AdminPort       int           `json:"admin"`
 	Strategy        string        `json:"strategy"`
 	HealthCheckFreq time.Duration `json:"health_check_frequency"`
 }
@@ -27,6 +28,7 @@ func LoadConfig(filename string) (*ProxyConfig, error) {
 	//FIXME: If there is a better way I would like to know about it.
 	var temp struct {
 		Port            int    `json:"port"`
+		AdminPort       int    `json:"admin"`
 		Strategy        string `json:"strategy"`
 		HealthCheckFreq string `json:"health_check_frequency"` // as you can see we are getting a string
 	}
@@ -44,6 +46,7 @@ func LoadConfig(filename string) (*ProxyConfig, error) {
 
 	return &ProxyConfig{
 		Port:            temp.Port,
+		AdminPort:       temp.AdminPort,
 		Strategy:        temp.Strategy,
 		HealthCheckFreq: duration,
 	}, nil
