@@ -21,6 +21,18 @@ func NewProxyHandler(lb loadbalancer.LoadBalancer) *ProxyHandler {
 
 func (ph *ProxyHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
+	// This tells the browser: "It's okay to accept requests from any website (*)"
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
+
+	// 2. Handle Preflight Requests
+	// Browsers sometimes send an empty "OPTIONS" request first to check permissions.
+	// We must respond with "OK" and stop there.
+	if r.Method == http.MethodOptions {
+		w.WriteHeader(http.StatusOK)
+		return
+	}
 	peer, err := ph.loadBalancer.GetNextValidPeer()
 
 	if err != nil {
