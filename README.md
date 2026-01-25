@@ -159,7 +159,7 @@ The TUI provides a visual interface for managing backends with the following cap
 
 - Monitor active connections per backend
 
-  ![FunctionalTUI](/home/ibhiy/Documents/GoLang/Reverse-Proxy/GoKnot/assets/FunctionalTUI.jpg)
+  ![FunctionalTUI](./assets/FunctionalTUI.jpg)
 
 Navigate using arrow keys or vim motions, change focus between status and actions using the Tab key, and execute actions with Enter.
 
@@ -205,7 +205,7 @@ python3 -m http.server 8888
 
 Open `http://localhost:8888` in your browser. The interface allows you to send requests through the reverse proxy and observe which backend handles each request. You can also run `npx serve .` if you don't want to use python.
 
-![client](/home/ibhiy/Documents/GoLang/Reverse-Proxy/GoKnot/assets/ClientInterface.jpg)
+![client](./assets/ClientInterface.jpg)
 
 ## Project Structure
 
