@@ -34,9 +34,25 @@ func (a *AdminServer) getStatus(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
 		backends := a.loadBalancer.GetBackends()
+
+		type backendJSON struct {
+			URL          string `json:"url"`
+			Alive        bool   `json:"alive"`
+			CurrentConns int64  `json:"current_connections"`
+		}
+
+		cleanBackends := []backendJSON{}
+		for _, b := range backends {
+			cleanBackends = append(cleanBackends, backendJSON{
+				URL:          b.URL.String(),
+				Alive:        b.Alive,
+				CurrentConns: b.CurrentConns,
+			})
+		}
+
 		response := map[string]any{
 			"total_backends": len(backends),
-			"backends":       backends,
+			"backends":       cleanBackends,
 		}
 
 		w.Header().Set("Content-type", "application/json")
